@@ -11,7 +11,18 @@
       <title>Django Blog</title>
     {% endif %}
 
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Custom styles for better transitions */
+      .mobile-menu-enter {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      .mobile-menu-enter-active {
+        transform: translateY(0);
+        opacity: 1;
+        transition: all 0.3s ease-out;
+      }
+    </style>
   </head>
   <body class="bg-gray-50">
     <header class="site-header">
@@ -20,8 +31,12 @@
           <div class="flex justify-between items-center h-16">
             <!-- Logo/Brand -->
             <div class="flex items-center">
-              <a href="#" class="text-white text-xl font-bold hover:text-gray-300 transition-colors">
-                Django Blog
+              <a href="#" class="text-white text-xl font-bold hover:text-gray-300 transition-colors flex items-center space-x-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                </svg>
+                <span>Django Blog</span>
               </a>
             </div>
 
@@ -29,10 +44,10 @@
             <div class="hidden md:flex items-center space-x-8">
               <!-- Left Menu -->
               <div class="flex items-center space-x-4">
-                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-700">
                   Home
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-700">
                   About
                 </a>
               </div>
@@ -40,17 +55,17 @@
               <!-- Right Menu -->
               <div class="flex items-center space-x-4 border-l border-gray-700 pl-4">
                 {% if user.is_authenticated %}
-                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-700">
                     Profile
                   </a>
-                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-700">
                     Logout
                   </a>
                 {% else %}
-                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-gray-700">
                     Login
                   </a>
-                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
                     Register
                   </a>
                 {% endif %}
@@ -61,13 +76,13 @@
             <div class="md:hidden">
               <button 
                 type="button" 
-                class="text-gray-400 hover:text-white focus:outline-none focus:text-white p-2"
+                class="text-gray-400 hover:text-white focus:outline-none focus:text-white p-2 rounded-md hover:bg-gray-700 transition-colors"
                 aria-label="Toggle menu"
                 onclick="toggleMobileMenu()"
                 aria-expanded="false"
                 aria-controls="mobile-menu"
               >
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="h-6 w-6 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
@@ -75,26 +90,26 @@
           </div>
 
           <!-- Mobile Menu (hidden by default) -->
-          <div id="mobile-menu" class="hidden md:hidden border-t border-gray-700">
+          <div id="mobile-menu" class="hidden md:hidden border-t border-gray-700 bg-gray-800 transition-all duration-300 ease-in-out">
             <div class="px-2 pt-2 pb-3 space-y-1">
-              <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+              <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                 Home
               </a>
-              <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+              <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                 About
               </a>
               {% if user.is_authenticated %}
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Profile
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Logout
                 </a>
               {% else %}
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Login
                 </a>
-                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Register
                 </a>
               {% endif %}
@@ -104,19 +119,32 @@
       </nav>
     </header>
 
-    <!-- Add padding-top to main content to account for fixed header -->
+    <!-- Main Content -->
     <main role="main" class="min-h-screen bg-white pt-16">
-      <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <!-- Messages/Alerts Block -->
         {% if messages %}
-          <div class="mb-6 space-y-3">
+          <div class="mb-8 space-y-4">
             {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} p-4 rounded-lg border-l-4 
+              <div class="p-4 rounded-lg border-l-4 shadow-sm transition-all duration-300
                         {% if message.tags == 'success' %}bg-green-50 border-green-500 text-green-700
                         {% elif message.tags == 'error' %}bg-red-50 border-red-500 text-red-700
                         {% elif message.tags == 'warning' %}bg-yellow-50 border-yellow-500 text-yellow-700
                         {% else %}bg-blue-50 border-blue-500 text-blue-700{% endif %}">
-                {{ message }}
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {% if message.tags == 'success' %}
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    {% elif message.tags == 'error' %}
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    {% elif message.tags == 'warning' %}
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    {% else %}
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    {% endif %}
+                  </svg>
+                  <span class="font-medium">{{ message }}</span>
+                </div>
               </div>
             {% endfor %}
           </div>
@@ -129,24 +157,60 @@
           </div>
 
           <!-- Sidebar -->
-          <div class="lg:w-4/12">
-            <div class="bg-gray-50 rounded-lg p-6 sticky top-24">
-              <h3 class="text-lg font-semibold text-gray-900 mb-3">Our Sidebar</h3>
-              <p class="text-gray-500 text-sm mb-4">You can put any information here you'd like.</p>
-              <ul class="space-y-2">
-                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
-                  Latest Posts
+          <div class="lg:w-4/12 space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-24">
+              <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Quick Links
+              </h3>
+              <ul class="space-y-3">
+                <li>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-3 rounded-lg transition-all duration-200 group">
+                    <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Latest Posts
+                  </a>
                 </li>
-                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
-                  Announcements
+                <li>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-green-600 hover:bg-green-50 px-3 py-3 rounded-lg transition-all duration-200 group">
+                    <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                    </svg>
+                    Announcements
+                  </a>
                 </li>
-                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
-                  Calendars
+                <li>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-3 py-3 rounded-lg transition-all duration-200 group">
+                    <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Calendars
+                  </a>
                 </li>
-                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
-                  etc
+                <li>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-orange-600 hover:bg-orange-50 px-3 py-3 rounded-lg transition-all duration-200 group">
+                    <svg class="w-4 h-4 mr-3 text-gray-400 group-hover:text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                    </svg>
+                    More Options
+                  </a>
                 </li>
               </ul>
+            </div>
+
+            <!-- Additional sidebar widget -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 border border-blue-200">
+              <h4 class="font-semibold text-gray-900 mb-3">Newsletter</h4>
+              <p class="text-gray-600 text-sm mb-4">Subscribe to get the latest updates.</p>
+              <div class="space-y-3">
+                <input type="email" placeholder="Enter your email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors font-medium">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -154,9 +218,39 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
+    <footer class="bg-gray-800 text-white mt-16">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span class="text-white font-bold text-sm">DB</span>
+              </div>
+              <span class="text-xl font-bold">Django Blog</span>
+            </div>
+            <p class="text-gray-400 max-w-md">
+              A modern blog platform built with Django and Tailwind CSS. Share your thoughts with the world.
+            </p>
+          </div>
+          <div>
+            <h5 class="font-semibold mb-4">Quick Links</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5 class="font-semibold mb-4">Connect</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white transition-colors">GitHub</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Twitter</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
           <p>&copy; 2024 Django Blog. All rights reserved.</p>
         </div>
       </div>
@@ -166,17 +260,19 @@
       function toggleMobileMenu() {
         const mobileMenu = document.getElementById('mobile-menu');
         const button = document.querySelector('[aria-controls="mobile-menu"]');
+        const menuIcon = document.getElementById('menu-icon');
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
         
         mobileMenu.classList.toggle('hidden');
         button.setAttribute('aria-expanded', !isExpanded);
         
-        // Update hamburger icon to X when menu is open
-        const svg = button.querySelector('svg');
+        // Animate hamburger to X
         if (!isExpanded) {
-          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+          menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+          menuIcon.classList.add('rotate-90');
         } else {
-          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+          menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+          menuIcon.classList.remove('rotate-90');
         }
       }
 
@@ -191,6 +287,23 @@
           toggleMobileMenu();
         }
       });
+
+      // Close mobile menu when clicking on a link
+      document.addEventListener('click', function(event) {
+        if (event.target.matches('#mobile-menu a')) {
+          toggleMobileMenu();
+        }
+      });
+
+      // Auto-hide messages after 5 seconds
+      setTimeout(() => {
+        const messages = document.querySelectorAll('.alert');
+        messages.forEach(message => {
+          message.style.opacity = '0';
+          message.style.transform = 'translateX(100%)';
+          setTimeout(() => message.remove(), 300);
+        });
+      }, 5000);
     </script>
   </body>
 </html>
