@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    {% if title %}
+      <title>Django - {{ title }}</title>
+    {% else %}
+      <title>Django Blog</title>
+    {% endif %}
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-50">
+    <header class="site-header">
+      <nav class="bg-gray-800 fixed top-0 w-full z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <!-- Logo/Brand -->
+            <div class="flex items-center">
+              <a href="#" class="text-white text-xl font-bold hover:text-gray-300 transition-colors">
+                Django Blog
+              </a>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+              <!-- Left Menu -->
+              <div class="flex items-center space-x-4">
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Home
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  About
+                </a>
+              </div>
+
+              <!-- Right Menu -->
+              <div class="flex items-center space-x-4 border-l border-gray-700 pl-4">
+                {% if user.is_authenticated %}
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                    Profile
+                  </a>
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                    Logout
+                  </a>
+                {% else %}
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                    Login
+                  </a>
+                  <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                    Register
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+              <button 
+                type="button" 
+                class="text-gray-400 hover:text-white focus:outline-none focus:text-white p-2"
+                aria-label="Toggle menu"
+                onclick="toggleMobileMenu()"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+              >
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mobile Menu (hidden by default) -->
+          <div id="mobile-menu" class="hidden md:hidden border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+              <a href="{% url 'home' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                Home
+              </a>
+              <a href="{% url 'about' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                About
+              </a>
+              {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                  Profile
+                </a>
+                <a href="{% url 'logout' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                  Logout
+                </a>
+              {% else %}
+                <a href="{% url 'login' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                  Login
+                </a>
+                <a href="{% url 'register' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                  Register
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Add padding-top to main content to account for fixed header -->
+    <main role="main" class="min-h-screen bg-white pt-16">
+      <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Messages/Alerts Block -->
+        {% if messages %}
+          <div class="mb-6 space-y-3">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} p-4 rounded-lg border-l-4 
+                        {% if message.tags == 'success' %}bg-green-50 border-green-500 text-green-700
+                        {% elif message.tags == 'error' %}bg-red-50 border-red-500 text-red-700
+                        {% elif message.tags == 'warning' %}bg-yellow-50 border-yellow-500 text-yellow-700
+                        {% else %}bg-blue-50 border-blue-500 text-blue-700{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="flex flex-col lg:flex-row gap-8">
+          <!-- Main Content -->
+          <div class="lg:w-8/12">
+            {% block content %}{% endblock %}
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:w-4/12">
+            <div class="bg-gray-50 rounded-lg p-6 sticky top-24">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">Our Sidebar</h3>
+              <p class="text-gray-500 text-sm mb-4">You can put any information here you'd like.</p>
+              <ul class="space-y-2">
+                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
+                  Latest Posts
+                </li>
+                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
+                  Announcements
+                </li>
+                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
+                  Calendars
+                </li>
+                <li class="text-gray-700 hover:text-gray-900 hover:bg-white px-3 py-2 rounded transition-colors cursor-pointer">
+                  etc
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p>&copy; 2024 Django Blog. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const button = document.querySelector('[aria-controls="mobile-menu"]');
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        mobileMenu.classList.toggle('hidden');
+        button.setAttribute('aria-expanded', !isExpanded);
+        
+        // Update hamburger icon to X when menu is open
+        const svg = button.querySelector('svg');
+        if (!isExpanded) {
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+        } else {
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        }
+      }
+
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const button = document.querySelector('[aria-controls="mobile-menu"]');
+        
+        if (!mobileMenu.classList.contains('hidden') && 
+            !mobileMenu.contains(event.target) && 
+            !button.contains(event.target)) {
+          toggleMobileMenu();
+        }
+      });
+    </script>
+  </body>
+</html>
