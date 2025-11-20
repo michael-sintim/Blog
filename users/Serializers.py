@@ -46,7 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     def create(self,validated_data):
         validated_data.pop('password2',None)
-        password = validated_data.pop('password',None)
+        password = validated_data.pop('password',None)2
 
         if validated_data.get('username'):
             base_name = validated_data['email'].split("@")[0]
